@@ -1,0 +1,30 @@
+{
+  "folders": [
+    {
+      "id": 1,
+      "name": "All Releases",
+      "children": [
+        {
+          "id": 2,
+          "name": "RELEASED",
+          "children": [
+            {
+              "id": 3,
+              "name": "Regression Suite",
+              "children": [
+                { "id": 4, "name": "Cycle 1" },
+                { "id": 5, "name": "Cycle 2" },
+                { "id": 6, "name": "Cycle 3" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "name": "UNRELEASED",
+          "children": []
+        }
+      ]
+    }
+  ]
+}
