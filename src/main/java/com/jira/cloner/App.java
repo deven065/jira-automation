@@ -1,49 +1,34 @@
 package com.jira.cloner;
 
-import org.apache.hc.client5.http.classic.methods.HttpGet;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.ClassicHttpResponse;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
-/**
- * Simple test app to connect with mock Jira server and fetch folders
- */
 public class App {
     public static void main(String[] args) {
-        String url = "http://localhost:3000/folders"; // mock server endpoint
-
-        try (CloseableHttpClient client = HttpClients.createDefault()) {
-            // Make GET request
-            HttpGet request = new HttpGet(url);
-            ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
-
-            System.out.println("HTTP Status: " + response.getCode());
-
-            // Read response
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(response.getEntity().getContent())
+        try {
+            Config config = new Config(
+                    "https://devenrikame.atlassian.net",
+                    "devenrikame55@gmail.com",
+                    "ATATT3xFfGF0hrbAT1EyBFzFH-1To7Eyh3HMR7wO_dXG_DxOnQigdFg-BKlvyrRB_2qWyVjpjaTXCucBcCDM5hvWhtEPcWLsxdSLBxyblg-mi-AkWDBYR3JH83TyveV0iEnhkxY2vxjPv6q5zbbc08RfDpxStG6d_oRXHWXOphdLH6k4jbLAkWw=3234ED8A",
+                    "SCRUM",
+                    "Release 1",       // source version
+                    "Release 2",       // target version
+                    "Regression Suite",
+                    "R5",
+                    true              // set false to actually clone
             );
-            StringBuilder json = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                json.append(line);
-            }
 
-            // Parse JSON
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode root = mapper.readTree(json.toString());
+            JiraService jiraService = new JiraService(
+                    config.getBaseUrl(),
+                    config.getEmail(),
+                    config.getApiToken(),
+                    config.getProjectKey()
+            );
 
-            System.out.println("\n📂 Received JSON Data:");
-            System.out.println(root.toPrettyString());
+            CycleCloner cloner = new CycleCloner(jiraService, config);
+            cloner.cloneRegressionSuite();
 
         } catch (Exception e) {
+            System.err.println("Fatal error: " + e.getMessage());
             e.printStackTrace();
+            System.exit(1);
         }
     }
 }
