@@ -1,37 +1,18 @@
 package com.jira.cloner;
 
 public class Config {
-    private final String baseUrl;
-    private final String email;
-    private final String apiToken;
-    private final String projectKey;
-    private final String sourceVersion;
-    private final String targetVersion;
-    private final String cycleName;
-    private final String suffix;
-    private final boolean dryRun;
+    // Jira Cloud
+    public static final String BASE_URL = "https://yourdomain.atlassian.net"; // replace with your Jira site
+    public static final String JIRA_EMAIL = "your-email@example.com";         // your Atlassian email
+    public static final String JIRA_API_TOKEN = "your-jira-api-token";        // Jira API token
 
-    public Config(String baseUrl, String email, String apiToken, String projectKey,
-                  String sourceVersion, String targetVersion, String cycleName,
-                  String suffix, boolean dryRun) {
-        this.baseUrl = baseUrl;
-        this.email = email;
-        this.apiToken = apiToken;
-        this.projectKey = projectKey;
-        this.sourceVersion = sourceVersion;
-        this.targetVersion = targetVersion;
-        this.cycleName = cycleName;
-        this.suffix = suffix;
-        this.dryRun = dryRun;
-    }
+    // Project info
+    public static final String PROJECT_KEY = "SCRUM"; // replace with your project key
+    public static final String PROJECT_ID = "10600";  // replace with your project ID
+    public static final String VERSION_ID = "-1";     // -1 for "Unscheduled", or real versionId
 
-    public String getBaseUrl() { return baseUrl; }
-    public String getEmail() { return email; }
-    public String getApiToken() { return apiToken; }
-    public String getProjectKey() { return projectKey; }
-    public String getSourceVersion() { return sourceVersion; }
-    public String getTargetVersion() { return targetVersion; }
-    public String getCycleName() { return cycleName; }
-    public String getSuffix() { return suffix; }
-    public boolean isDryRun() { return dryRun; }
+    // Zephyr Essential
+    public static final String ZEPHYR_ACCESS_KEY = "your-zephyr-access-key";
+    public static final String ZEPHYR_SECRET_KEY = "your-zephyr-secret-key";
+    public static final String ACCOUNT_ID = "your-account-id";
 }

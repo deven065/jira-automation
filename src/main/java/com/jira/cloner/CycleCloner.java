@@ -2,25 +2,19 @@ package com.jira.cloner;
 
 public class CycleCloner {
 
-    private final JiraService jiraService;
-    private final Config config;
+    private JiraService jiraService;
 
-    public CycleCloner(JiraService jiraService, Config config) {
+    public CycleCloner(JiraService jiraService) {
         this.jiraService = jiraService;
-        this.config = config;
     }
 
-    public void cloneRegressionSuite() throws Exception {
-        String sourceVersionId = jiraService.getVersionId(config.getSourceVersion());
-        String targetVersionId = jiraService.getVersionId(config.getTargetVersion());
-        String newCycleName = config.getCycleName() + " " + config.getSuffix();
-
-        if (config.isDryRun()) {
-            System.out.println("[DryRun] Would clone '" + config.getCycleName() +
-                    "' from version '" + config.getSourceVersion() +
-                    "' to version '" + config.getTargetVersion() + "' as '" + newCycleName + "'");
-        } else {
-            jiraService.cloneCycle(sourceVersionId, targetVersionId, newCycleName);
+    public void cloneRegressionSuite(String sourceCycleId, String newCycleName) {
+        try {
+            System.out.println("Cloning cycle: " + sourceCycleId + " → " + newCycleName);
+            String response = jiraService.cloneCycle(sourceCycleId, newCycleName);
+            System.out.println("Clone successful! Response: " + response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
